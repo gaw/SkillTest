@@ -1,23 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class NetAction2 : MonoBehaviour
 {
-
-	public Transform cubePrefab;
- 
+	public Transform playerPrefab;
+ 	public ArrayList playerScripts = new ArrayList();
+	
 	void OnServerInitialized()
 	{
-	    SpawnPlayer();
+	    SpawnPlayer(Network.player);
 	}
 	
-	void OnConnectedToServer()
+	void OnPlayerConnected(NetworkPlayer player)
 	{
-	    SpawnPlayer();
+	    SpawnPlayer(player);
 	}
 	
-	void SpawnPlayer()
+	void SpawnPlayer(NetworkPlayer player)
 	{
-	    Transform myTransform = (Transform)Network.Instantiate(cubePrefab, transform.position, transform.rotation, 0);
+	    string tempPlayerString = player.ToString();
+	    int playerNumber = Convert.ToInt32(tempPlayerString);
+		Transform newPlayerTransform = (Transform)Network.Instantiate(playerPrefab, transform.position, transform.rotation, playerNumber);
+		playerScripts.Add(newPlayerTransform.GetComponent("PlayerMoveAuthoritative"));
+		NetworkView theNetworkView = newPlayerTransform.networkView;
+		theNetworkView.RPC("SetPlayer", RPCMode.AllBuffered, player);
 	}
 }
