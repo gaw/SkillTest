@@ -43,7 +43,6 @@ public class LightingController : MonoBehaviour
         _lineRenderer.SetVertexCount(points.Count);
         for (var i = 0; i < points.Count; i++)
             _lineRenderer.SetPosition(i, points[i]);
-        Debug.Log(points.Count);
     }
 
 
