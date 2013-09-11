@@ -49,10 +49,11 @@ public class Skeleton : MonoBehaviour
         animator.SetFloat("Speed", vertical);
         animator.SetBool("Battle", battle);
         
-
-        Vector3 newPosition = transform.position;
-        transform.position = newPosition + transform.forward * vertical * meshMoveSpeed;
-        
+		if (currentBaseState.nameHash == runState)
+		{
+	        Vector3 newPosition = transform.position;
+	        transform.position = newPosition + transform.forward * vertical * meshMoveSpeed;
+		}
 
         if (currentBaseState.nameHash != attackState)
         {
