@@ -19,6 +19,8 @@ public class Skeleton : MonoBehaviour
     private Vector3 _lastCamPosition;
     private AnimatorStateInfo currentBaseState;
 
+    private float meshMoveSpeed = .1f;
+
     void Start () 
     {
         animator = GetComponent<Animator>();
@@ -46,8 +48,11 @@ public class Skeleton : MonoBehaviour
 
         animator.SetFloat("Speed", vertical);
         animator.SetBool("Battle", battle);
+        
 
-
+        Vector3 newPosition = transform.position;
+        transform.position = newPosition + transform.forward * vertical * meshMoveSpeed;
+        
 
         if (currentBaseState.nameHash != attackState)
         {
